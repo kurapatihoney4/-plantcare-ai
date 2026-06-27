@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Results</title>
+</head>
+<body>
+
+<h2>Prediction Results</h2>
+
+{% for item in results %}
+    <div style="margin-bottom:20px;">
+        <img src="{{ item.image_url }}" width="200">
+        <p><b>Prediction:</b> {{ item.result }}</p>
+    </div>
+{% endfor %}
+
+<br>
+<a href="{% url 'upload_images' %}">Upload More</a>
+
+</body>
+</html>

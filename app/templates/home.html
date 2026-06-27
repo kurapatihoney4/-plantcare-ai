@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Plant Disease Detection</title>
+
+    <style>
+
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        .container{
+            background: white;
+            width: 400px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
+        }
+
+        h1{
+            color: green;
+        }
+
+        input[type=file]{
+            margin: 20px;
+        }
+
+        button{
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover{
+            background-color: darkgreen;
+        }
+
+        .result{
+            margin-top: 20px;
+            font-size: 22px;
+            color: blue;
+            font-weight: bold;
+        }
+
+        img{
+            margin-top: 20px;
+            width: 250px;
+            border-radius: 10px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Plant Disease Detection</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <input type="file" name="image" required>
+
+            <br><br>
+
+            <button type="submit">
+                Predict Disease
+            </button>
+
+        </form>
+
+        {% if image_url %}
+            <img src="{{ image_url }}" alt="Uploaded Image">
+        {% endif %}
+
+        {% if result %}
+            <div class="result">
+                Prediction: {{ result }}
+            </div>
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
