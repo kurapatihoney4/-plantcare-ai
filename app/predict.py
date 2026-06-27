@@ -2,9 +2,15 @@ from tensorflow import keras
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, 'ml_model', 'model.keras')
+MODEL_PATH = os.path.join(BASE_DIR, "ml_model", "model.keras")
 
-model = keras.models.load_model(MODEL_PATH)
+model = None
+
+def get_model():
+    global model
+    if model is None:
+        model = keras.models.load_model(MODEL_PATH)
+    return model
 classes = [
     'Apple___Apple_scab',
     'Apple___Black_rot',
@@ -319,6 +325,7 @@ def predict_disease(img_path):
         }
 
     # Model prediction
+    model = get_model()
     prediction = model.predict(img_array)
 
     confidence = float(np.max(prediction)) * 100
