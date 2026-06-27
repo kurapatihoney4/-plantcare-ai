@@ -2,13 +2,13 @@ from PIL import Image
 import numpy as np
 import os
 
-from tensorflow.keras.models import load_model
+from tensorflow import keras
 from tensorflow.keras.preprocessing import image
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, 'ml_model', 'model.h5')
 
-model = load_model(MODEL_PATH, compile=False, safe_mode=False)
+model = keras.models.load_model(MODEL_PATH, compile=False)
 
 classes = [
     'Apple___Apple_scab',
