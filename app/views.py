@@ -1,4 +1,8 @@
-import base64
+
+import tensorflow as tf
+import keras
+print("TensorFlow:", tf.__version__)
+print("Keras:", keras.__version__)import base64
 from django.core.files.base import ContentFile
 from django.shortcuts import render
 from .models import PlantDisease
