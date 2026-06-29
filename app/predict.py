@@ -1,3 +1,6 @@
+import numpy as np
+from tensorflow.keras.utils import load_img, img_to_array
+from PIL import Image
 from tensorflow import keras
 import os
 
@@ -289,12 +292,12 @@ disease_info = {
 
 def predict_disease(img_path):
 
-    img = image.load_img(
+    img = load_img(
         img_path,
         target_size=(224, 224)
     )
 
-    img_array = image.img_to_array(img)
+    img_array = img_to_array(img)
 
     img_array = np.expand_dims(
         img_array,

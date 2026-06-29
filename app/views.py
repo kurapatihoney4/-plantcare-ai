@@ -11,9 +11,13 @@ def index(request):
 
     if request.method == 'POST':
 
+        print("POST request received")
+
         captured_data = request.POST.get("captured_data")
 
         if captured_data:
+
+            print("Camera image received")
 
             format, imgstr = captured_data.split(';base64,')
 
@@ -30,8 +34,8 @@ def index(request):
 
             images = request.FILES.getlist('images')
 
-        print("POST received")
-        print("Number of images:", len(images))
+            print("Images:", images)
+            print("Number of images:", len(images))
 
         for img in images:
 
@@ -54,6 +58,7 @@ def index(request):
                 "symptoms": prediction["symptoms"],
                 "prevention": prediction["prevention"]
             })
+            print(results)
 
     return render(
         request,
