@@ -5,7 +5,7 @@ from tensorflow import keras
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "ml_model", "model.keras")
+MODEL_PATH = os.path.join(BASE_DIR, "ml_model", "model.h5")
 
 model = None
 
