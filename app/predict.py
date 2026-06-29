@@ -12,7 +12,10 @@ model = None
 def get_model():
     global model
     if model is None:
-        model = keras.models.load_model(MODEL_PATH)
+        model = keras.models.load_model(
+    MODEL_PATH,
+    compile=False
+)
     return model
 classes = [
     'Apple___Apple_scab',
