@@ -1,8 +1,11 @@
 
 import tensorflow as tf
 import keras
+import base64
+
 print("TensorFlow:", tf.__version__)
-print("Keras:", keras.__version__)import base64
+print("Keras:", keras.__version__)
+
 from django.core.files.base import ContentFile
 from django.shortcuts import render
 from .models import PlantDisease
