@@ -22,3 +22,6 @@ staticfiles/
 
 # Environment variables
 .env
+
+# SQLite Database
+db.sqlite3
