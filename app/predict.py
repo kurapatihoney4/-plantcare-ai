@@ -1,11 +1,8 @@
-import numpy as np
-from tensorflow.keras.utils import load_img, img_to_array
-from PIL import Image
-from tensorflow import keras
 import os
+from tensorflow import keras
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "ml_model", "model.h5")
+MODEL_PATH = os.path.join(BASE_DIR, "ml_model", "model.keras")
 
 model = None
 
