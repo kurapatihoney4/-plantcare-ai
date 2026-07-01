@@ -1,4 +1,5 @@
 import os
+import json
 from tensorflow import keras
 from tensorflow.keras.layers import BatchNormalization
 import numpy as np
@@ -15,18 +16,59 @@ class CompatBatchNormalization(BatchNormalization):
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "ml_model", "model.keras")
+MODEL_DIR = os.path.join(BASE_DIR, "ml_model")
+MODEL_CANDIDATES = [
+    os.path.join(MODEL_DIR, "model.h5"),
+    os.path.join(MODEL_DIR, "model_fixed.h5"),
+    os.path.join(MODEL_DIR, "model.keras"),
+]
 
 model = None
+
 
 def get_model():
     global model
     if model is None:
-        with keras.utils.custom_object_scope({'BatchNormalization': CompatBatchNormalization}):
-            model = keras.models.load_model(
-                MODEL_PATH,
-                compile=False
-            )
+        model_path = None
+        for candidate in MODEL_CANDIDATES:
+            if os.path.exists(candidate):
+                model_path = candidate
+                break
+
+        if model_path is None:
+            raise FileNotFoundError('No model file found in app/ml_model')
+
+        custom_objects = {'BatchNormalization': CompatBatchNormalization}
+
+        try:
+            if model_path.endswith('.h5'):
+                with keras.utils.custom_object_scope(custom_objects):
+                    model = keras.models.load_model(
+                        model_path,
+                        compile=False,
+                        custom_objects=custom_objects
+                    )
+            else:
+                with keras.utils.custom_object_scope(custom_objects):
+                    model = keras.models.load_model(
+                        model_path,
+                        compile=False,
+                        custom_objects=custom_objects
+                    )
+        except Exception as exc:
+            if model_path.endswith('.keras'):
+                try:
+                    import tensorflow as tf
+                    model = tf.keras.models.load_model(
+                        os.path.join(MODEL_DIR, 'model.h5'),
+                        compile=False,
+                        custom_objects=custom_objects
+                    )
+                except Exception:
+                    raise exc
+            else:
+                raise exc
+
     return model
 
 
