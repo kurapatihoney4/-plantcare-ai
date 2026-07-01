@@ -1,12 +1,17 @@
 import os
 from tensorflow import keras
+from tensorflow.keras.layers import BatchNormalization
 import numpy as np
 from PIL import Image
 from tensorflow.keras.utils import load_img, img_to_array
 
 
-
-
+class CompatBatchNormalization(BatchNormalization):
+    def __init__(self, **kwargs):
+        kwargs.pop('renorm', None)
+        kwargs.pop('renorm_clipping', None)
+        kwargs.pop('renorm_momentum', None)
+        super().__init__(**kwargs)
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -17,11 +22,14 @@ model = None
 def get_model():
     global model
     if model is None:
-        model = keras.models.load_model(
-            MODEL_PATH,
-            compile=False
-        )
+        with keras.saving.custom_object_scope({'BatchNormalization': CompatBatchNormalization}):
+            model = keras.models.load_model(
+                MODEL_PATH,
+                compile=False
+            )
     return model
+
+
 classes = [
     'Apple___Apple_scab',
     'Apple___Black_rot',
