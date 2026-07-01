@@ -22,7 +22,7 @@ model = None
 def get_model():
     global model
     if model is None:
-        with keras.saving.custom_object_scope({'BatchNormalization': CompatBatchNormalization}):
+        with keras.utils.custom_object_scope({'BatchNormalization': CompatBatchNormalization}):
             model = keras.models.load_model(
                 MODEL_PATH,
                 compile=False
